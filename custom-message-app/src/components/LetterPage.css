@@ -1,0 +1,40 @@
+/* LetterPage.css */
+
+.card {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
+    background-color: antiquewhite;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+  }
+  
+  .card-content {
+    overflow: hidden; /* Ensure long content does not overflow */
+
+  }
+  
+  .message {
+    white-space: pre-line; /* Preserve new lines and spaces */
+    text-align: center;
+    color: rgb(223, 13, 13);
+  }
+
+  .empty-message {
+    text-align: center;
+  }
+
+
+  
+/* Responsive styles */
+@media (min-width: 600px) {
+    /* Adjust styles for larger screens */
+    .card {
+      max-width: 900px; /* Set maximum width for larger screens */
+    }
+  }

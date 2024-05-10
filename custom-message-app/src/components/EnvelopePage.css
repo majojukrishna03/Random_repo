@@ -1,0 +1,15 @@
+/* EnvelopePage.css */
+.envelope {
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  .envelope:hover {
+    transform: rotate(360deg); /* Example rotation */
+    
+  }
+  
+  .envelope-container {
+    text-align: center;
+    margin-top: 10px; /* Adjust as needed */
+  }
+  
