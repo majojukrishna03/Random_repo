@@ -5,6 +5,26 @@ const LetterPage = () => {
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
+  const decryptMessage = (text, shift) => {
+    let decryptedText = '';
+    for (let i = 0; i < text.length; i++) {
+      const charCode = text.charCodeAt(i);
+      // Decrypt uppercase letters
+      if (charCode >= 65 && charCode <= 90) {
+        decryptedText += String.fromCharCode(((charCode - 65 + shift + 26) % 26) + 65);
+      }
+      // Decrypt lowercase letters
+      else if (charCode >= 97 && charCode <= 122) {
+        decryptedText += String.fromCharCode(((charCode - 97 + shift + 26) % 26) + 97);
+      }
+      // Keep non-alphabetic characters unchanged
+      else {
+        decryptedText += text[i];
+      }
+    }
+    return decryptedText;
+  };
+
   const handleClick = async () => {
     try {
       const response = await fetch('/message.txt');
@@ -12,7 +32,8 @@ const LetterPage = () => {
         throw new Error('Failed to fetch message');
       }
       const text = await response.text();
-      setMessage(text);
+      const decryptedText = decryptMessage(text, 3); // You can change the shift value here
+      setMessage(decryptedText);
     } catch (error) {
       console.error('Error fetching message:', error);
     } finally {
