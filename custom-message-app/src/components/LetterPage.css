@@ -1,40 +1,79 @@
 /* LetterPage.css */
 
+.letter-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+  padding: 20px;
+  text-align: center;
+}
+
 .card {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    transition: transform 0.3s ease-in-out;
-    background-color: antiquewhite;
-  }
-  
-  .card:hover {
-    transform: scale(1.05);
-  }
-  
-  .card-content {
-    overflow: hidden; /* Ensure long content does not overflow */
+  background-color: #e6d598;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  width: 62%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  overflow: hidden;
+  position: relative;
+}
 
-  }
-  
-  .message {
-    white-space: pre-line; /* Preserve new lines and spaces */
-    text-align: center;
-    color: rgb(223, 13, 13);
-  }
+.card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
 
-  .empty-message {
-    text-align: center;
-  }
+.empty-message {
+  margin: 0;
+  color: #888;
+}
 
+.message {
+  color: red;
+  font-family: 'Courier New', Courier, monospace;
+  white-space: pre-wrap;
+  text-align: center;
+  margin: 0;
+}
 
-  
-/* Responsive styles */
-@media (min-width: 600px) {
-    /* Adjust styles for larger screens */
-    .card {
-      max-width: 900px; /* Set maximum width for larger screens */
-    }
+/* LetterPage.css */
+@keyframes blink {
+  0% {
+    opacity: 1;
   }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.blink {
+  animation: blink 1s infinite;
+}
+
+.close-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px; /* Adjust the margin as needed */
+}
+
+.close-button:hover {
+  background-color: #0056b3;
+}
+
+/* Add additional styles as needed */

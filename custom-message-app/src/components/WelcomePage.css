@@ -1,20 +1,48 @@
 /* WelcomePage.css */
-.fade-in {
-    animation: fadeIn 1s ease-in;
+
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.welcome-text {
+  font-size: 3rem;
+  color: #333;
+  margin-bottom: 20px;
+  animation: fadeIn 2s ease-in-out;
+}
+
+.welcome-button {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  opacity: 0;
+  animation: fadeInButton 2s ease-in-out forwards;
+  animation-delay: 5s; /* Start animation after 5 seconds (2 seconds for alert + 3 seconds delay for button) */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
+  to {
+    opacity: 1;
   }
-  
-  .welcome-container {
-    text-align: center;
-    animation: fadeIn;
-    margin-top: 100px; /* Adjust as needed */
+}
+
+@keyframes fadeInButton {
+  from {
+    opacity: 0;
   }
-  
+  to {
+    opacity: 1;
+  }
+}
