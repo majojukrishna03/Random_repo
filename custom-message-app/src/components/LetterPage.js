@@ -1,9 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './LetterPage.css'; // Import CSS for animations
 
 const LetterPage = () => {
   const [message, setMessage] = useState('');
+  const [displayedMessage, setDisplayedMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [showCloseButton, setShowCloseButton] = useState(false);
+  const [showWelcomeMessage, setShowWelcomeMessage] = useState(false);
+
+  useEffect(() => {
+    const fetchMessage = async () => {
+      try {
+        const response = await fetch('/message.txt');
+        if (!response.ok) {
+          throw new Error('Failed to fetch message');
+        }
+        const text = await response.text();
+        const decryptedText = decryptMessage(text, 3); // Adjust the shift value as needed
+        setMessage(decryptedText);
+        // Simulate loading for 3 seconds before starting message display
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 3000);
+      } catch (error) {
+        console.error('Error fetching message:', error);
+        setIsLoading(false); // Stop loading animation in case of error
+      }
+    };
+
+    fetchMessage();
+  }, []);
+
+  useEffect(() => {
+    if (!isLoading && message) {
+      // Start displaying the message after a delay
+      setTimeout(() => {
+        let currentIndex = 0;
+
+        const typeCharacter = () => {
+          // Check if the current character is '#' or if currentIndex exceeds message length
+          if (currentIndex >= message.length || message[currentIndex] === '-') {
+            setShowCloseButton(true); // Show the close button after the message is displayed
+            return; // Stop typing if '-' is encountered or end of message is reached
+          }
+
+          setDisplayedMessage((prev) => {
+            if (message[currentIndex] === '-') {
+              return prev;
+            } else {
+              return prev + message[currentIndex];
+            }
+          });
+          currentIndex++;
+
+          setTimeout(typeCharacter, 50); // Adjust the typing speed here
+        };
+
+        typeCharacter();
+      }, 1000); // Add a delay of 1 second before starting the message display animation
+    }
+  }, [isLoading, message]);
 
   const decryptMessage = (text, shift) => {
     let decryptedText = '';
@@ -25,34 +81,36 @@ const LetterPage = () => {
     return decryptedText;
   };
 
-  const handleClick = async () => {
-    try {
-      const response = await fetch('/message.txt');
-      if (!response.ok) {
-        throw new Error('Failed to fetch message');
-      }
-      const text = await response.text();
-      const decryptedText = decryptMessage(text, 3); // You can change the shift value here
-      setMessage(decryptedText);
-    } catch (error) {
-      console.error('Error fetching message:', error);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleCloseMessage = () => {
+    // Clear the message and show the welcome message after 2 seconds
+    setMessage('');
+    setTimeout(() => {
+      setShowCloseButton(false)
+      setShowWelcomeMessage(true);
+      
+    }, 2000);
   };
 
   return (
     <div className="letter-container">
-      <h1 className="display-4"></h1><br></br>
-      <div className={isLoading ? "card" : "card with-background"} onClick={handleClick}>
-        <div className="card-content">
-          {isLoading ? (
-            <p className="empty-message">Click to open the message</p>
-          ) : (
-            <pre className="message">{message}</pre>
-          )}
+      {showWelcomeMessage ? (
+        <h1 className="welcome-message fade-in">Bye Dheeraj...</h1>
+      ) : (
+        <div className="card" onClick={() => {}}>
+          <div className="card-content">
+            {isLoading ? (
+              <p className="empty-message blink">Loading message...</p>
+            ) : (
+              <pre className="message">{displayedMessage}</pre>
+            )}
+          </div>
         </div>
-      </div>
+      )}
+      {showCloseButton && (
+        <button className="close-button" onClick={handleCloseMessage}>
+          Close Message
+        </button>
+      )}
     </div>
   );
 };
